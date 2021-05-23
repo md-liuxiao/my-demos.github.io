@@ -34,59 +34,45 @@ export default {
       containerHeight: 0
     }
   },
-
   mounted () {
     setTimeout(() => {
       this.titleAnimation()
     })
-    
+
     this.containerWidth = document.body.clientWidth
     this.containerHeight = document.body.clientHeight
 
-    this.setBgSize(this.containerWidth, this.containerHeight)
-    this.setContainerBackground()
+    this.setBgSize()
   },
   methods: {
     titleAnimation () {
       this.titleVisible = true
     },
     setBgSize () {
-      let bgContainer = document.querySelector('.bg-img')
-      let baseWidth = document.body.clientWidth
-      let baseHeight = document.body.clientHeight
-      let maxWidth = document.body.clientWidth + 200
-      // let maxHeight = document.body.clientHeight + 200
-
-      bgContainer.style.width = baseWidth + 'px'
-      bgContainer.style.height = baseHeight + 'px'
+      let bgDiv = document.querySelector('.bg-img')
+      let count = 0
+      let status = 'add'
 
       setInterval(() => {
-        // console.log(document.querySelector('.bg-img').offsetWidth)
-        // console.log(document.querySelector('.bg-img').offsetHeight)
-        if (document.querySelector('.bg-img').offsetWidth <= maxWidth) {
-          bgContainer.style.width = (document.querySelector('.bg-img').offsetWidth + 1) + 'px'
-          bgContainer.style.height = (document.querySelector('.bg-img').offsetHeight + 1) + 'px'
-        } else {
-          bgContainer.style.width = (document.querySelector('.bg-img').offsetWidth - 1) + 'px'
-          bgContainer.style.height = (document.querySelector('.bg-img').offsetHeight - 1) + 'px'
+        if (count >= 200) {
+          status = 'delete'
+        } else if (count <= 0) {
+          status = 'add'
         }
+
+        if (status === 'add') {
+          count++
+          this.containerWidth++
+          this.containerHeight++
+        } else {
+          count--
+          this.containerWidth--
+          this.containerHeight--
+        }
+
+        bgDiv.style.width = this.containerWidth + 'px'
+        bgDiv.style.height = this.containerHeight + 'px'
       }, 100)
-    },
-    setContainerBackground () {
-      // const zoomRatio = 0
-      // let container = document.querySelector('.home-container')
-      // console.log(window.getComputedStyle(container)['background-size'])
-
-      // setInterval(() => {
-      //   if (this.zoomRatio <= 1) {
-      //     this.zoomRatio += 0.1
-      //   } else {
-      //     this.zoomRatio -= 0.1
-      //   }
-
-      //   container.style.transform = `scale(${this.zoomRatio})`
-      // }, 1000)
-      // container.style.backgroundSize = '120% 120%'
     }
   }
 }
